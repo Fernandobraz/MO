@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+        <% if(typeof(title) != "undefined"){ %>
+            <%= title %>
+        <% }else{%>
+            MO
+        <% } %>
+    </title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta name="viewport" content='width=device-width, initial-scale=1.0'>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" media='screen'>
+    <script src='http://code.jquery.com/jquery.js'></script>
+    <script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js'></script>
+  </head>
+  <body>
+      <div class="container">
+        <% var logged = false; %>
+        <% if(typeof(user) !== "undefined"){ %>
+            <% logged = true; %>
+        <% } %>
+        <% if(!logged){ %>
+            <div class="jumbotron text-center">
+                <h1><span class="fa fa-lock"></span> Node Authentication</h1>
+
+                <p>Login or Register with:</p>
+
+                <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
+                <a href="/register" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+            </div>
+        <% }else{ %>
+            <div class="nav-bar">
+                <ul class="links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#">Another example</a></li>
+                </ul>
+                <div class="user-info">
+                    <span>Hey, <a href="/profile"><%= user.username %></a></span>(<a href="/logout">Logout</a>)
+                </div>
+            </div>
+        <% } %>

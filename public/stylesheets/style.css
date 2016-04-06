@@ -1,0 +1,35 @@
+body {
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+h1{
+    text-transform: capitalize;
+}
+a {
+    color: #00B7FF;
+}
+.nav-bar {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px 40px;
+}
+.user-info{
+    float: right;
+}
+.user-info span{
+    text-transform: capitalize;
+}
+.well p{
+    text-transform: capitalize;
+}
+ul.links {
+    list-style: none;
+    padding-left: 0;
+    float: left;
+}
+.links li {
+    float: left;
+    margin-right: 20px;
+}

@@ -1,0 +1,24 @@
+<% include ../layouts/header.ejs %>
+
+<div class="row">
+
+    <!-- LOCAL INFORMATION -->
+    <div class="col-sm-12">
+        <div class="well">
+            <h3><span class="fa fa-user"></span>Profile</h3>
+            <a href="/profile-edit">Edit</a>
+
+                <p>
+                    <strong>Username</strong>: <%= user.username %><br>
+                    <strong>First Name</strong>: <%= user.firstname %><br>
+                    <strong>Last Name</strong>: <%= user.lastname %><br>
+                    <strong>Email</strong>: <%= user.email %><br>
+                    <strong>Gender</strong>: <%= user.gender %><br>
+                </p>
+
+        </div>
+    </div>
+
+</div>
+
+<% include ../layouts/footer.ejs %>

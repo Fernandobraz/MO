@@ -1,0 +1,10 @@
+<% include layouts/header.ejs %>
+
+<% if(typeof(user) !== "undefined"){ %>
+    <h1>Welcome <%= user.username %></h1>
+<% }else{%>
+    <h1>Welcome</h1>
+<% } %>
+
+<% include layouts/footer.ejs %>
+
