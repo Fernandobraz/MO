@@ -1,0 +1,51 @@
+<% include ../../layouts/header.ejs %>
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h1> <%= title %> </h1>
+
+    <!-- show any messages that come back with authentication -->
+    <% if(typeof(message) !== "undefined"){ %>
+        <% if (message.length > 0) { %>
+            <div class="alert alert-danger"><%- message %></div>
+        <% } %>
+    <% } %>
+
+    <form action="/cards/monster/post" method="post">
+        <input type="hidden" name="id" value=<%= monster._id %>>
+        <div class="form-group">
+            <label>Name<span class="mandatory">*</span></label>
+            <input type="text" class="form-control" name="name" value=<%= monster.name %>>
+        </div>
+        <div class="form-group">
+            <label>Level<span class="mandatory">*</span></label>
+            <input type="text" class="form-control" name="level" value=<%= monster.level %>>
+        </div>
+        <div class="form-group">
+            <label>Description<span class="mandatory">*</span></label><br>
+            <textarea name="description" rows="10" cols="50"><%= monster.description %></textarea>
+        </div>
+        <div class="form-group">
+            <label>Bad Stuff<span class="mandatory">*</span></label><br>
+            <textarea name="badstuff" rows="10" cols="50"><%= monster.badstuff %></textarea>
+        </div>
+        <div class="form-group">
+            <label>Level Prize</label>
+            <input type="text" class="form-control" name="levelprize" value=<%= monster.levelprize %>>
+        </div>
+        <div class="form-group">
+            <label>Treasure Prize</label>
+            <input type="text" class="form-control" name="treasureprize" value=<%= monster.treasureprize %>>
+        </div>
+        <div class="form-group">
+            <label>Is Undead?</label>
+            <input type="checkbox" name="isundead" <% if(monster.isundead){ %> checked <% } %>>
+        </div>
+        <button type="submit" class="btn btn-lg">Submit</button>
+        <a href="/cards">
+            <button type="button" class="btn btn-lg">Cancel</button>
+        </a>
+    </form>
+
+</div>
+
+<% include ../../layouts/footer.ejs %>

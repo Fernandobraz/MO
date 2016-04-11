@@ -1,0 +1,21 @@
+<% include ../../layouts/header.ejs %>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="well">
+            <h3><%= title %></h3>
+            <a href="/cards/item/edit/<%= item._id %>">Edit</a>
+
+                <p>
+                    <strong>Name</strong>: <%= item.name %><br>
+                    <strong>Bonus</strong>: <%= item.bonus %><br>
+                    <strong>Description</strong>: <%= item.description %><br>
+                    <strong>Restrictions</strong>: <%= item.restriction %><br>
+                    <strong>Body Part</strong>: <%= item.bodypart %><br>
+                </p>
+
+        </div>
+    </div>
+</div>
+
+<% include ../../layouts/footer.ejs %>

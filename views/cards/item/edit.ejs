@@ -1,0 +1,43 @@
+<% include ../../layouts/header.ejs %>
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h1> <%= title %> </h1>
+
+    <!-- show any messages that come back with authentication -->
+    <% if(typeof(message) !== "undefined"){ %>
+        <% if (message.length > 0) { %>
+            <div class="alert alert-danger"><%- message %></div>
+        <% } %>
+    <% } %>
+
+    <form action="/cards/item/post" method="post">
+        <input type="hidden" name="id" value=<%= item.id %>>
+        <div class="form-group">
+            <label>Name<span class="mandatory">*</span></label>
+            <input type="text" class="form-control" name="name" value=<%= item.name %>>
+        </div>
+        <div class="form-group">
+            <label>Bonus<span class="mandatory">*</span></label>
+            <input type="text" class="form-control" name="bonus" value=<%= item.bonus %>>
+        </div>
+        <div class="form-group">
+            <label>Description<span class="mandatory">*</span></label><br>
+            <textarea name="description" rows="10" cols="50"> <%= item.description %></textarea>
+        </div>
+        <div class="form-group">
+            <label>Restrictions</label>
+            <input type="text" class="form-control" name="restriction" value=<%= item.restriction %>>
+        </div>
+        <div class="form-group">
+            <label>Body Part</label>
+            <input type="text" class="form-control" name="bodypart" value=<%= item.bodypart %>>
+        </div>
+        <button type="submit" class="btn btn-lg">Submit</button>
+        <a href="/cards">
+            <button type="button" class="btn btn-lg">Cancel</button>
+        </a>
+    </form>
+
+</div>
+
+<% include ../../layouts/footer.ejs %>

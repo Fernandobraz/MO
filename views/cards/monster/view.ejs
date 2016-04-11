@@ -1,0 +1,23 @@
+<% include ../../layouts/header.ejs %>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="well">
+            <h3><%= title %></h3>
+            <a href="/cards/monster/edit/<%= monster._id %>">Edit</a>
+
+                <p>
+                    <strong>Name</strong>: <%= monster.name %><br>
+                    <strong>Level</strong>: <%= monster.level %><br>
+                    <strong>Description</strong>: <%= monster.description %><br>
+                    <strong>Bad Stuff</strong>: <%= monster.badstuff %><br>
+                    <strong>Level Prize</strong>: <%= monster.levelprize %><br>
+                    <strong>Treasure Prize</strong>: <%= monster.treasureprize %><br>
+                    <strong>Is Undead?</strong>: <%= monster.isundead %><br>
+                </p>
+
+        </div>
+    </div>
+</div>
+
+<% include ../../layouts/footer.ejs %>

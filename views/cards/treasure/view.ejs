@@ -1,0 +1,20 @@
+<% include ../../layouts/header.ejs %>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="well">
+            <h3><%= title %></h3>
+            <a href="/cards/treasure/edit/<%= treasure._id %>">Edit</a>
+
+                <p>
+                    <strong>Name</strong>: <%= treasure.name %><br>
+                    <strong>Type</strong>: <%= treasure.type %><br>
+                    <strong>Description</strong>: <%= treasure.description %><br>
+                    <strong>Gold Value</strong>: <%= treasure.goldvalue %><br>
+                </p>
+
+        </div>
+    </div>
+</div>
+
+<% include ../../layouts/footer.ejs %>

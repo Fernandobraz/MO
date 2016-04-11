@@ -1,0 +1,20 @@
+<% include ../../layouts/header.ejs %>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="well">
+            <h3><%= title %></h3>
+            <a href="/cards/door/edit/<%= door._id %>">Edit</a>
+
+                <p>
+                    <strong>Name</strong>: <%= door.name %><br>
+                    <strong>Type</strong>: <%= door.type %><br>
+                    <strong>Description</strong>: <%= door.description %><br>
+                    <strong>Occurrences</strong>: <%= door.occurrence %><br>
+                </p>
+
+        </div>
+    </div>
+</div>
+
+<% include ../../layouts/footer.ejs %>

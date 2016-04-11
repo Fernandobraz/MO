@@ -1,0 +1,100 @@
+<% include ../layouts/header.ejs %>
+
+<h1><%= title %></h1>
+
+<!-- Monster cards -->
+<h3>Monster list (Door cards)</h3>
+<a href="/cards/monster/new">
+    <button class="btn btn-lg">New Monster</button>
+</a>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Level</th>
+            <th>Functions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% monsters.forEach(function(monster){ %>
+        <tr>
+            <td><a href="/cards/monster/view/<%= monster._id %>"><%= monster.name %></a></td>
+            <td><%= monster.level %></td>
+            <td><a href="/cards/monster/edit/<%= monster._id %>">Edit</a> <a href="/cards/monster/delete/<%= monster._id %>">Delete</a></td>
+        </tr>
+       <% }); %>
+    </tbody>
+</table>
+
+<!-- Door cards -->
+<h3>Door cards list</h3>
+<a href="/cards/door/new">
+    <button class="btn btn-lg">New Door Card</button>
+</a>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Functions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% doors.forEach(function(door){ %>
+        <tr>
+            <td><a href="/cards/door/view/<%= door._id %>"><%= door.name %></a></td>
+            <td><%= door.type %></td>
+            <td><a href="/cards/door/edit/<%= door._id %>">Edit</a> <a href="/cards/door/delete/<%= door._id %>">Delete</a></td>
+        </tr>
+       <% }); %>
+    </tbody>
+</table>
+<!-- Item Cards -->
+<h3>Item list(Treasure cards)</h3>
+<a href="/cards/item/new">
+    <button class="btn btn-lg">New Item</button>
+</a>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Bonus</th>
+            <th>Functions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% items.forEach(function(item){ %>
+        <tr>
+            <td><a href="/cards/item/view/<%= item._id %>"><%= item.name %></a></td>
+            <td><%= item.bonus %></td>
+            <td><a href="/cards/item/edit/<%= item._id %>">Edit</a> <a href="/cards/item/delete/<%= item._id %>">Delete</a></td>
+        </tr>
+       <% }); %>
+    </tbody>
+</table>
+<!-- Treasure Cards -->
+<h3>Treasure cards list</h3>
+<a href="/cards/treasure/new">
+    <button class="btn btn-lg">New Treasure Card</button>
+</a>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Functions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% treasures.forEach(function(treasure){ %>
+        <tr>
+            <td><a href="/cards/treasure/view/<%= treasure._id %>"><%= treasure.name %></a></td>
+            <td><%= treasure.type %></td>
+            <td><a href="/cards/treasure/edit/<%= treasure._id %>">Edit</a> <a href="/cards/treasure/delete/<%= treasure._id %>">Delete</a></td>
+        </tr>
+       <% }); %>
+    </tbody>
+</table>
+
+<% include ../layouts/footer.ejs %>
+

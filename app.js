@@ -13,6 +13,7 @@ var session  		= require('express-session');
 var config 			= require('./config');
 
 var routes 			= require('./routes/index');
+var cards           = require('./routes/cards');
 var port 			= process.env.PORT || 3000;
 
 // view engine setup
@@ -36,12 +37,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 var users = require('./routes/users')(app, passport);
 app.use('/', routes);
+app.use('/cards', cards);
 // app.use('/users', users);
 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  var err = new Error('The page you are looking for does not exist... Check if the URL is correct.');
   err.status = 404;
   next(err);
 });

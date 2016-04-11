@@ -1,0 +1,39 @@
+<% include ../../layouts/header.ejs %>
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h1> <%= title %> </h1>
+
+    <!-- show any messages that come back with authentication -->
+    <% if(typeof(message) !== "undefined"){ %>
+        <% if (message.length > 0) { %>
+            <div class="alert alert-danger"><%- message %></div>
+        <% } %>
+    <% } %>
+
+    <form action="/cards/door/post" method="post">
+        <input type="hidden" name="id" value=<%= door.id %>>
+        <div class="form-group">
+            <label>Name<span class="mandatory">*</span></label>
+            <input type="text" class="form-control" name="name" value=<%= door.name %>>
+        </div>
+        <div class="form-group">
+            <label>Type<span class="mandatory">*</span></label>
+            <input type="text" class="form-control" name="type" value=<%= door.type %>>
+        </div>
+        <div class="form-group">
+            <label>Description<span class="mandatory">*</span></label><br>
+            <textarea name="description" rows="10" cols="50"><%= door.description %></textarea>
+        </div>
+        <div class="form-group">
+            <label>Occurrence</label>
+            <input type="text" class="form-control" name="occurrence" value=<%= door.occurrence %>>
+        </div>
+        <button type="submit" class="btn btn-lg">Submit</button>
+        <a href="/cards">
+            <button type="button" class="btn btn-lg">Cancel</button>
+        </a>
+    </form>
+
+</div>
+
+<% include ../../layouts/footer.ejs %>
