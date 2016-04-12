@@ -32,6 +32,10 @@
             <label>Body Part</label>
             <input type="text" class="form-control" name="bodypart" value=<%= item.bodypart %>>
         </div>
+        <div class="form-group">
+            <label>Is a Big Item?</label>
+            <input type="checkbox" name="isbig" <% if(item.isbig){ %> checked <% } %>>
+        </div>
         <button type="submit" class="btn btn-lg">Submit</button>
         <a href="/cards">
             <button type="button" class="btn btn-lg">Cancel</button>
