@@ -1,5 +1,26 @@
 <% include ../layouts/header.ejs %>
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<h1><%= title %></h1>
+<div class="container top">
+    <div class="left-block">
+         <ul id="user-list"></ul> 
+    </div>
+    <div class="right-block">
+        <div id="logger">
+            <ul class="log"></ul>
+        </div>
+    </div>
+</div>
+<div class="container bottom">
+    <div class="left-block">
+        <button id="open-door" class="btn btn-danger">Open Door</button>
+        <button id="get-treasure" class="btn btn-danger">Get Treasure</button>
+    </div>
+    <div class="right-block">
+        
+    </div>
+</div>
+
 <script>
   var socket = io();
   
@@ -19,22 +40,13 @@
   socket.on("log", function(msg){
      $(".log").append("<li>" + msg + "</li>") 
   });
+  
+  $("#open-door").click(function(){
+      socket.emit("logFromClient", "<%= user.username %> opened a door...");
+  });
+  $("#get-treasure").click(function(){
+      socket.emit("logFromClient", "<%= user.username %> got a treasure...");
+  });
 </script>
-
-
-<h1><%= title %></h1>
-<div class="container">
-    <div class="left-block">
-         <ul id="user-list"></ul> 
-    </div>
-    <div class="right-block">
-        <div id="logger">
-            <ul class="log"></ul>
-        </div>
-    </div>
-    
-</div>
-
-
 
 <% include ../layouts/footer.ejs %>

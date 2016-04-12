@@ -115,6 +115,9 @@ io.on('connection', function(socket){
 		io.emit("removedPlayersList", dcPlayer);
 		io.emit("log", player.username + " desconnected...");
 	});
+	socket.on("logFromClient", function(msg){
+		io.emit("log", msg);
+	});
 });
 
 http.listen(3000, function(){

@@ -11,6 +11,7 @@ a {
 ul{
     list-style: none;
     padding-left: 0;
+    text-transform: capitalize;
 }
 .nav-bar {
     width: 100%;
@@ -44,7 +45,7 @@ ul.links {
  .left-block {
     border: 1px solid;
     width: 20%;
-    height: 50VH;
+    
     padding: 20px 40px;
     float: left;
 }
@@ -52,7 +53,7 @@ ul.links {
     border: 1px solid;
     width: 78%;
     float: right;
-    height: 50VH;
+    
     overflow: hidden;
     position: relative;
 }
@@ -61,4 +62,13 @@ ul.links {
     height: 100%;
     position: absolute;
     padding: 20px 40px;
+}
+.top{
+    margin-bottom: 20px;   
+}
+.top .left-block, .top .right-block{
+    height: 50VH;
+}
+.bottom .left-block, .bottom .right-block{
+    height: 25VH;
 }
