@@ -8,6 +8,10 @@ h1{
 a {
     color: #00B7FF;
 }
+ul{
+    list-style: none;
+    padding-left: 0;
+}
 .nav-bar {
     width: 100%;
     position: absolute;
@@ -36,3 +40,25 @@ ul.links {
  .mandatory{
      color: #BB2424;
  }
+ 
+ .left-block {
+    border: 1px solid;
+    width: 20%;
+    height: 50VH;
+    padding: 20px 40px;
+    float: left;
+}
+.right-block {
+    border: 1px solid;
+    width: 78%;
+    float: right;
+    height: 50VH;
+    overflow: hidden;
+    position: relative;
+}
+#logger {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 20px 40px;
+}

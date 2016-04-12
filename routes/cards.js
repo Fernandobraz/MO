@@ -8,20 +8,21 @@ var router = express.Router();
 
 // var Monster = mongoose.model('doorMonster');
 var monsterList, doorList, itemList, treasureList; 
-Monster.find({}, function(err, monsters){
-    monsterList = monsters;
-});
-Door.find({}, function(err, doors){
-    doorList = doors;
-});
-Item.find({}, function(err, items){
-    itemList = items;
-});
-Treasure.find({}, function(err, treasure){
-    treasureList = treasure;
-});
+
 
 router.get('/', function (req, res) {
+    Monster.find({}, function(err, monsters){
+        monsterList = monsters;
+    });
+    Door.find({}, function(err, doors){
+        doorList = doors;
+    });
+    Item.find({}, function(err, items){
+        itemList = items;
+    });
+    Treasure.find({}, function(err, treasure){
+        treasureList = treasure;
+    });
     res.render('cards/index.ejs', { title: "List of cards", user : req.user, monsters: monsterList, doors: doorList, items: itemList, treasures: treasureList  });
 });
 
@@ -184,6 +185,7 @@ router.post('/item/post', function(req, res){
     var description = req.body.description;
     var restriction = req.body.restriction;
     var bodypart = req.body.bodypart;
+    var isbig = req.body.isbig;
     var message;
     
     if(name === "" || bonus === "" || description === ""){
@@ -197,11 +199,13 @@ router.post('/item/post', function(req, res){
                 bonus : bonus,
                 description : description,
                 restriction: restriction,
-                bodypart: bodypart
+                bodypart: bodypart,
+                isbig: isbig
             }, function(err, item){
                 if(err) throw err;
-                
-               res.render('cards/item/view.ejs', { title: item.name, user : req.user, item: item });
+               
+               res.redirect("/cards/item/view/" + item._id); 
+            //    res.render('cards/item/view.ejs', { title: item.name, user : req.user, item: item, id: item._id });
             });
         }
         else{
@@ -210,11 +214,12 @@ router.post('/item/post', function(req, res){
                 bonus : bonus,
                 description : description,
                 restriction: restriction,
-                bodypart: bodypart
+                bodypart: bodypart,
+                isbig: isbig
             });
             newItem.save(function(err){
                 if(err) throw err;
-                res.location("cards");
+                // res.location("cards");
                 res.redirect("/cards");
             });
         }

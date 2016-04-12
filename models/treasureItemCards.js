@@ -6,7 +6,8 @@ var treasureItemSchema = new Schema({
     bonus: String,
     description: String,
     restriction: String,
-    bodypart: String
+    bodypart: String,
+    isbig: Boolean
 });
 
 module.exports = mongoose.model('treasureItem', treasureItemSchema);

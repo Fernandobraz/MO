@@ -1,0 +1,40 @@
+<% include ../layouts/header.ejs %>
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script>
+  var socket = io();
+  
+  socket.on("joinGame", function(id){
+    var myUser = {id: id, username: "<%= user.username %>"}
+    socket.emit("sendUser", myUser);
+  });
+  socket.on("addedPlayersList", function(userList){
+      $("#user-list").empty();
+      userList.forEach(function(user){
+         $("#user-list").append("<li id='" + user.username + "'>" + user.username + "</li>"); 
+      });
+  });
+  socket.on("removedPlayersList", function(player){
+      $("#" + player).remove();
+  });
+  socket.on("log", function(msg){
+     $(".log").append("<li>" + msg + "</li>") 
+  });
+</script>
+
+
+<h1><%= title %></h1>
+<div class="container">
+    <div class="left-block">
+         <ul id="user-list"></ul> 
+    </div>
+    <div class="right-block">
+        <div id="logger">
+            <ul class="log"></ul>
+        </div>
+    </div>
+    
+</div>
+
+
+
+<% include ../layouts/footer.ejs %>

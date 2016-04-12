@@ -9,11 +9,16 @@ var mongoose 		= require('mongoose');
 var passport 		= require('passport');
 var flash    		= require('connect-flash');
 var session  		= require('express-session');
+var http            = require('http').Server(app);
+var io              = require("socket.io")(http);
+var npid            = require("npid");
+var uuid            = require('node-uuid');
 
 var config 			= require('./config');
 
 var routes 			= require('./routes/index');
 var cards           = require('./routes/cards');
+var game            = require('./routes/game');
 var port 			= process.env.PORT || 3000;
 
 // view engine setup
@@ -38,14 +43,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 var users = require('./routes/users')(app, passport);
 app.use('/', routes);
 app.use('/cards', cards);
-// app.use('/users', users);
+app.use('/game', game);
 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('The page you are looking for does not exist... Check if the URL is correct.');
-  err.status = 404;
-  next(err);
+	var err = new Error('The page you are looking for does not exist... Check if the URL is correct.');
+	err.status = 404;
+	next(err);
 });
 
 // error handlers
@@ -53,25 +58,68 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+	app.use(function(err, req, res, next) {
 	res.status(err.status || 500);
 	res.render('error', {
-	  message: err.message,
-	  error: err
+		message: err.message,
+		error: err
 	});
-  });
+	});
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
+	res.status(err.status || 500);
+	res.render('error', {
 	message: err.message,
 	error: {}
-  });
+	});
 });
-app.listen(port);
-console.log('The magic happens on port ' + port);
+
+var connectedPlayers = [];
+io.on('connection', function(socket){
+	var player;
+	io.emit("joinGame", socket.id);
+	socket.on("sendUser", function(user){
+		player = user;
+		var shouldItAdd = true;
+		if(connectedPlayers.length > 0){
+			connectedPlayers.forEach(function(u){
+				if(user.username === u.username){
+					shouldItAdd = false;
+				}
+			});
+			if(shouldItAdd)
+				connectedPlayers.push(user);
+		}else{
+			connectedPlayers.push(user);
+		}
+			if(shouldItAdd){
+				io.emit("addedPlayersList", connectedPlayers);
+				io.emit("log", player.username + " connected...");
+			}
+	});
+	socket.on('disconnect', function(){
+		var i = 0, playerIndex = -1, dcPlayer;
+		connectedPlayers.forEach(function(p){
+			if(p.id === player.id){
+				playerIndex = i;
+				dcPlayer = p.username;
+			}
+			i++;
+		});
+		if(playerIndex !== -1){
+			connectedPlayers.splice(playerIndex, 1);
+		}
+		io.emit("removedPlayersList", dcPlayer);
+		io.emit("log", player.username + " desconnected...");
+	});
+});
+
+http.listen(3000, function(){
+	console.log('listening on *:3000');
+});
+
 
 module.exports = app;
