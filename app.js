@@ -16,9 +16,10 @@ var uuid            = require('node-uuid');
 
 var config 			= require('./config');
 var btnFunctions    = require('./lib/btn-functions');
+var gameFunctions   = require('./lib/game-functions');
 
-// var Game            = require('./models/game');
-// var GameUsers       = require('./models/gameUsers');
+var Game            = require('./models/game');
+var GameUsers       = require('./models/gameUsers');
 
 var routes 			= require('./routes/index');
 var cards           = require('./routes/cards');
@@ -84,8 +85,10 @@ app.use(function(err, req, res, next) {
 var connectedPlayers = [];
 var votedList = [];
 var playersOrder = [];
+var currentGameId;
 io.on('connection', function(socket){
 	var player;
+    currentGameId = gameFunctions.checkNewGame();
 	io.emit("joinGame");
 	socket.on("sendUser", function(user){
 		player = user;
@@ -129,11 +132,14 @@ io.on('connection', function(socket){
         var shouldStart = btnFunctions.voteStart(user, connectedPlayers, votedList);
         io.emit("successVote", {shouldStart: shouldStart, username: user});
     });
+    socket.on("gameStarted", function(){
+       gameFunctions.registerUsers(connectedPlayers, currentGameId);
+       
+    });
     socket.on("firstRoll", function(username){
         var allRolled = btnFunctions.firstRoll(username, playersOrder, connectedPlayers.length);
-        console.log(playersOrder);
         io.emit("successRoll", {allRolled: allRolled, playersOrder: playersOrder})
-    })
+    });
 });
 
 http.listen(3000, function(){

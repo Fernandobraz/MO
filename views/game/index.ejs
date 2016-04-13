@@ -43,7 +43,9 @@
 <script>
   var socket = io();
   var myUsername;
-  
+  socket.on("alertTest", function(){
+    alert("gagaga");  
+  })
   socket.on("joinGame", function(){
     var myUser = {username: "<%= user.username %>", id:"<%= user._id %>", gender: "<%= user.gender %>", firstRoll: "0" }
     myUsername = myUser.username;
@@ -67,7 +69,8 @@
         $("#vote-start").attr('disabled','disabled').text("Voted");
     }
     if(data.shouldStart){
-        socket.emit("logFromClient", "Game Started! It's on MOTHERFUCKER!");
+        socket.emit("logFromClient", "Game Started!!");
+        socket.emit("gameStarted");
         $(".moment-0").toggleClass("active");
         $(".moment-1").toggleClass("active");  
     }
