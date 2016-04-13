@@ -15,6 +15,10 @@ var npid            = require("npid");
 var uuid            = require('node-uuid');
 
 var config 			= require('./config');
+var btnFunctions    = require('./lib/btn-functions');
+
+// var Game            = require('./models/game');
+// var GameUsers       = require('./models/gameUsers');
 
 var routes 			= require('./routes/index');
 var cards           = require('./routes/cards');
@@ -78,9 +82,11 @@ app.use(function(err, req, res, next) {
 });
 
 var connectedPlayers = [];
+var votedList = [];
+var playersOrder = [];
 io.on('connection', function(socket){
 	var player;
-	io.emit("joinGame", socket.id);
+	io.emit("joinGame");
 	socket.on("sendUser", function(user){
 		player = user;
 		var shouldItAdd = true;
@@ -118,6 +124,16 @@ io.on('connection', function(socket){
 	socket.on("logFromClient", function(msg){
 		io.emit("log", msg);
 	});
+    
+    socket.on("voteToStart", function(user){
+        var shouldStart = btnFunctions.voteStart(user, connectedPlayers, votedList);
+        io.emit("successVote", {shouldStart: shouldStart, username: user});
+    });
+    socket.on("firstRoll", function(username){
+        var allRolled = btnFunctions.firstRoll(username, playersOrder, connectedPlayers.length);
+        console.log(playersOrder);
+        io.emit("successRoll", {allRolled: allRolled, playersOrder: playersOrder})
+    })
 });
 
 http.listen(3000, function(){

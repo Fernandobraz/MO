@@ -6,15 +6,34 @@
          <ul id="user-list"></ul> 
     </div>
     <div class="right-block">
-        <div id="logger">
+        <div class="logger">
             <ul class="log"></ul>
+        </div>
+        <div class="player-panel">
+            <div class="game-stage"></div>
+            <div class="active-cards"></div>
         </div>
     </div>
 </div>
 <div class="container bottom">
     <div class="left-block">
-        <button id="open-door" class="btn btn-danger">Open Door</button>
-        <button id="get-treasure" class="btn btn-danger">Get Treasure</button>
+        <div class="moment moment-0 active">
+            <button id="vote-start" class="btn btn-danger">Vote to Start</button>            
+        </div>
+        <div class="moment moment-1">
+            <button id="turn-decider" class="btn btn-danger">Roll the Dice</button>            
+        </div>
+        <div class="moment moment-2">
+            <button id="open-door" class="btn btn-danger">Open Door</button>
+            <button id="check-door-discard" class="btn btn-danger">Check Door Discards</button>
+        </div>
+        <div class="moment moment-3">
+            <button id="look-for-trouble" class="btn btn-danger">Look For Trouble</button>
+            <button id="get-treasures" class="btn btn-danger">Get Tresure(s)</button>
+        </div>
+        <div class="moment moment-4">
+            <button id="end-turn" class="btn btn-danger">End Turn</button>
+        </div>
     </div>
     <div class="right-block">
         
@@ -23,15 +42,17 @@
 
 <script>
   var socket = io();
+  var myUsername;
   
-  socket.on("joinGame", function(id){
-    var myUser = {id: id, username: "<%= user.username %>"}
+  socket.on("joinGame", function(){
+    var myUser = {username: "<%= user.username %>", id:"<%= user._id %>", gender: "<%= user.gender %>", firstRoll: "0" }
+    myUsername = myUser.username;
     socket.emit("sendUser", myUser);
   });
   socket.on("addedPlayersList", function(userList){
       $("#user-list").empty();
       userList.forEach(function(user){
-         $("#user-list").append("<li id='" + user.username + "'>" + user.username + "</li>"); 
+         $("#user-list").append("<li id='" + user.username + "'>" + user.username + "<span class='gender'>"+ user.gender.slice(0,1) +"</span><span class='level'>1</span></li>"); 
       });
   });
   socket.on("removedPlayersList", function(player){
@@ -40,6 +61,30 @@
   socket.on("log", function(msg){
      $(".log").append("<li>" + msg + "</li>") 
   });
+  socket.on("successVote", function(data){
+    if(myUsername === data.username){
+        socket.emit("logFromClient", "<%= user.username %> voted to start...");
+        $("#vote-start").attr('disabled','disabled').text("Voted");
+    }
+    if(data.shouldStart){
+        socket.emit("logFromClient", "Game Started! It's on MOTHERFUCKER!");
+        $(".moment-0").toggleClass("active");
+        $(".moment-1").toggleClass("active");  
+    }
+  });
+  socket.on("successRoll", function(data){
+      var thisUser;
+      data.playersOrder.forEach(function(user){
+          if(user.username === myUsername){
+              thisUser = user;
+          }
+      });
+      console.log(thisUser);
+     if(myUsername === thisUser.username){
+         socket.emit("logFromClient", "<%= user.username %> rolled and got a " +  thisUser.rollValue);
+        $("#turn-decider").attr('disabled','disabled').text("Rolled");
+     } 
+  });
   
   $("#open-door").click(function(){
       socket.emit("logFromClient", "<%= user.username %> opened a door...");
@@ -47,6 +92,12 @@
   $("#get-treasure").click(function(){
       socket.emit("logFromClient", "<%= user.username %> got a treasure...");
   });
+  $("#vote-start").click(function(){
+      socket.emit("voteToStart", "<%= user.username %>")
+  });
+  $("#turn-decider").click(function(){
+      socket.emit("firstRoll", "<%= user.username %>");
+  })
 </script>
 
 <% include ../layouts/footer.ejs %>

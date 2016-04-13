@@ -57,11 +57,13 @@ ul.links {
     overflow: hidden;
     position: relative;
 }
-#logger {
-    width: 100%;
+.logger {
+    width: 30%;
     height: 100%;
-    position: absolute;
+    position: relative;
     padding: 20px 40px;
+    border: 1px solid;
+    float: right;
 }
 .top{
     margin-bottom: 20px;   
@@ -69,6 +71,43 @@ ul.links {
 .top .left-block, .top .right-block{
     height: 50VH;
 }
+.player-panel{
+    width: 69.99%;
+    height: 100%;
+    position: relative;
+    border: 1px solid;
+    float:left;
+}
+.game-stage {
+    width: 100%;
+    height: 69.9%;
+    border: 1px solid;
+    padding: 20px;
+    position: relative;
+}
+.active-cards {
+    width: 100%;
+    height: 30%;
+    border: 1px solid;
+    position: relative;
+}
 .bottom .left-block, .bottom .right-block{
     height: 25VH;
 }
+
+.moment{
+    display:none;
+}
+.moment.active{
+    display: block;
+}
+.moment button {
+    margin: 0 auto;
+    display: block;
+}
+
+.gender, .level{
+    margin-left: 20px;
+    text-transform: uppercase;
+}
+
