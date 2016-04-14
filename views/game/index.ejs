@@ -1,6 +1,7 @@
 <% include ../layouts/header.ejs %>
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <h1><%= title %></h1>
+<button id="test-button" class="btn btn-danger">Test Button</button>  
 <div class="container top">
     <div class="left-block">
          <ul id="user-list"></ul> 
@@ -43,10 +44,11 @@
 <script>
   var socket = io();
   var myUsername;
-  socket.on("alertTest", function(){
-    alert("gagaga");  
-  })
-  socket.on("joinGame", function(){
+  socket.on("joinGame", function(currentGame){
+      if(currentGame.hasStarted){
+          $(".moment-0").toggleClass("active");
+          $(".moment-" + currentGame.gameMoment).toggleClass("active");
+      }
     var myUser = {username: "<%= user.username %>", id:"<%= user._id %>", gender: "<%= user.gender %>", firstRoll: "0" }
     myUsername = myUser.username;
     socket.emit("sendUser", myUser);
@@ -100,6 +102,9 @@
   });
   $("#turn-decider").click(function(){
       socket.emit("firstRoll", "<%= user.username %>");
+  });
+  $("#test-button").click(function(){
+      socket.emit("testButton");
   })
 </script>
 

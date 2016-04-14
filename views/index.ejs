@@ -7,9 +7,13 @@
     <% }else if(user.gender.length <= 0 || user.firstname.length <= 0 || user.lastname.length <= 0 || user.email.length <= 0){ %>
         <p>Before you can play you need to update your profile. Click <a href="/profile-edit">here</a> to do it.</p>
     <% }else{ %>
-        <a href="/game">
-            <button type="button" class="btn btn-warning btn-lg">Join Game</button>
-        </a>
+        <% if(gameAccessDenied){ %>
+            <button type="button" disabled class="btn btn-defualt btn-lg">Game in Progress</button>
+        <% }else{ %>
+            <a href="/game">
+                <button type="button" class="btn btn-warning btn-lg">Join Game</button>
+            </a>
+        <% } %>
     <% } %>
 <% }else{%>
     <h1>Welcome</h1>

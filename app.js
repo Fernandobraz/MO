@@ -10,16 +10,11 @@ var passport 		= require('passport');
 var flash    		= require('connect-flash');
 var session  		= require('express-session');
 var http            = require('http').Server(app);
-var io              = require("socket.io")(http);
+// var io              = require("socket.io")(http);
 var npid            = require("npid");
 var uuid            = require('node-uuid');
 
 var config 			= require('./config');
-var btnFunctions    = require('./lib/btn-functions');
-var gameFunctions   = require('./lib/game-functions');
-
-var Game            = require('./models/game');
-var GameUsers       = require('./models/gameUsers');
 
 var routes 			= require('./routes/index');
 var cards           = require('./routes/cards');
@@ -48,8 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 var users = require('./routes/users')(app, passport);
 app.use('/', routes);
 app.use('/cards', cards);
-app.use('/game', game);
-
+game(app, http);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -80,66 +74,6 @@ app.use(function(err, req, res, next) {
 	message: err.message,
 	error: {}
 	});
-});
-
-var connectedPlayers = [];
-var votedList = [];
-var playersOrder = [];
-var currentGameId;
-io.on('connection', function(socket){
-	var player;
-    currentGameId = gameFunctions.checkNewGame();
-	io.emit("joinGame");
-	socket.on("sendUser", function(user){
-		player = user;
-		var shouldItAdd = true;
-		if(connectedPlayers.length > 0){
-			connectedPlayers.forEach(function(u){
-				if(user.username === u.username){
-					shouldItAdd = false;
-				}
-			});
-			if(shouldItAdd)
-				connectedPlayers.push(user);
-		}else{
-			connectedPlayers.push(user);
-		}
-			if(shouldItAdd){
-				io.emit("addedPlayersList", connectedPlayers);
-				io.emit("log", player.username + " connected...");
-			}
-	});
-	socket.on('disconnect', function(){
-		var i = 0, playerIndex = -1, dcPlayer;
-		connectedPlayers.forEach(function(p){
-			if(p.id === player.id){
-				playerIndex = i;
-				dcPlayer = p.username;
-			}
-			i++;
-		});
-		if(playerIndex !== -1){
-			connectedPlayers.splice(playerIndex, 1);
-		}
-		io.emit("removedPlayersList", dcPlayer);
-		io.emit("log", player.username + " desconnected...");
-	});
-	socket.on("logFromClient", function(msg){
-		io.emit("log", msg);
-	});
-    
-    socket.on("voteToStart", function(user){
-        var shouldStart = btnFunctions.voteStart(user, connectedPlayers, votedList);
-        io.emit("successVote", {shouldStart: shouldStart, username: user});
-    });
-    socket.on("gameStarted", function(){
-       gameFunctions.registerUsers(connectedPlayers, currentGameId);
-       
-    });
-    socket.on("firstRoll", function(username){
-        var allRolled = btnFunctions.firstRoll(username, playersOrder, connectedPlayers.length);
-        io.emit("successRoll", {allRolled: allRolled, playersOrder: playersOrder})
-    });
 });
 
 http.listen(3000, function(){
